@@ -44,7 +44,11 @@ defmodule NervesSystemRpi3.MixProject do
       artifact_sites: [
         {:github_releases, "#{@github_organization}/#{@app}"}
       ],
+      build_runner: Nerves.Artifact.BuildRunner.Docker,
       build_runner_opts: build_runner_opts(),
+      build_runner_config: [
+        docker: {"Dockerfile", "nerves_system_br_wpe:1.15.1"}
+      ],
       platform: Nerves.System.BR,
       platform_config: [
         defconfig: "nerves_defconfig"
@@ -126,7 +130,7 @@ defmodule NervesSystemRpi3.MixProject do
     case System.get_env("BR2_PRIMARY_SITE") do
       nil -> []
       primary_site -> [make_args: ["BR2_PRIMARY_SITE=#{primary_site}"]]
-    end
+    end 
   end
 
   defp set_target() do
